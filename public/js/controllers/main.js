@@ -56,4 +56,11 @@ angular.module('todoController', ['ui.router'])
 			}
 		};
 
+
+		$scope.explain = function (id) {
+			alert("Hola Mundo "+ id);
+		};
+
+
+
 	}]);
