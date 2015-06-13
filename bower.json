@@ -1,0 +1,18 @@
+{
+  "name": "expl.guru",
+  "version": "0.0.1",
+  "authors": [
+    "wiskas <holamundo.buz@gmail.com>"
+  ],
+  "description": "The expl app",
+  "license": "GNU",
+  "private": "true",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-resource": "~1.4.0",
+    "bootstrap": "~3.3.4",
+    "angular-ui-router": "~0.2.15"
+  }
+}
