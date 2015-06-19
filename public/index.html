@@ -31,50 +31,20 @@
 </head>
 <!-- SET THE CONTROLLER -->
 <body ng-controller="mainController">
+
+<nav class="navbar navbar-default">
 	<div class="container">
 
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			<h1>eXpl <span class="label label-info">3</span></h1>
-		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="#question"><i class="fa fa-shield"></i>Preguntar</a></li>
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
+		</ul>
+	</div>
+</nav>
 
+	<div class="container">
 
-<!--				<p class="text-center" ng-show="loading">
-					<span class="fa fa-spinner fa-spin fa-3x"></span>
-				</p>-->
-
-			</div>
-		</div>
-
-		<!-- FORM TO CREATE TODOS -->
-		<div id="todo-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
-
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="Ingrese temas " ng-model="formData.searchText">
-					</div>
-
-					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="searchQuestion()">Search</button>
-				</form>
-			</div>
-		</div>
-
-
-		<table>
-			<tr ng-repeat="item in questions">
-				<td>{{ item.Title }}</td>
-				<td>{{ item.Subject }}</td>
-				<td><a href="#explain/{{ item._id }}">Explicame</a></td>
-
-			</tr>
-		</table>
 
 
 
@@ -87,6 +57,7 @@
 		</div>
 
 
+
 		<div class="text-center text-muted">
 
 			<p>Powered by <a href="http://www.fibonacci.cl">fibonacci</a>.</p>
@@ -94,6 +65,8 @@
 		</div>
 
 	</div>
+
+
 
 </body>
 </html>

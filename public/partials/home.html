@@ -1,0 +1,42 @@
+<!-- HEADER AND TODO COUNT -->
+<div class="jumbotron text-center">
+    <h1>eXpl <span class="label label-info">3</span></h1>
+</div>
+
+<!-- TODO LIST -->
+<div id="todo-list" class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+
+
+        <!--				<p class="text-center" ng-show="loading">
+                            <span class="fa fa-spinner fa-spin fa-3x"></span>
+                        </p>-->
+
+    </div>
+</div>
+
+<!-- FORM TO CREATE TODOS -->
+<div id="todo-form" class="row">
+    <div class="col-sm-8 col-sm-offset-2 text-center">
+        <form>
+            <div class="form-group">
+
+                <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                <input type="text" class="form-control input-lg text-center" placeholder="Ingrese temas " ng-model="formData.searchText">
+            </div>
+
+            <!-- createToDo() WILL CREATE NEW TODOS -->
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="searchQuestion()">Search</button>
+        </form>
+    </div>
+</div>
+
+
+<table>
+    <tr ng-repeat="item in questions">
+        <td>{{ item.Title }}</td>
+        <td>{{ item.Subject }}</td>
+        <td><a href="#explain/{{ item._id }}">Explicame</a></td>
+
+    </tr>
+</table>

@@ -3,11 +3,22 @@ angular.module('todoController', ['ngRoute'])
 	.config(function($routeProvider) {
 		$routeProvider
 
+			.when('/', {
+				templateUrl : 'partials/home.html',
+				controller  : 'mainController'
+			})
+			.when('/home', {
+				templateUrl : 'partials/home.html',
+				controller  : 'mainController'
+			})
 
-			// route for the about page
 			.when('/explain/:param', {
 				templateUrl : 'partials/explain.html',
 				controller  : 'explainController'
+			})
+			.when('/question', {
+				templateUrl : 'partials/question.html',
+				controller  : 'questionController'
 			});
 
 
@@ -16,20 +27,33 @@ angular.module('todoController', ['ngRoute'])
 	.controller('explainController', function($scope, $routeParams) {
 		$scope.message = $routeParams.param;
 	})
+	.controller('questionController', ['$scope','$http','Questions', function($scope, $http, Questions) {
+		$scope.formData = {};
+
+		$scope.createQuestion = function() {
+
+			if ($scope.formData.question != undefined) {
+
+				Questions.create({
+					Title : $scope.formData.question ,
+					Subject : $scope.formData.subject
+				}, function (err, todo) {
+					if (err)
+						res.send(err);
+
+				});
+
+			}
+
+		}
+
+	}])
 
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','Questions', function($scope, $http, Questions) {
 		$scope.formData = {};
 		$scope.loading = false;
 
-
-		$scope.questions = [{'Title':'Cual es la distancia de la tierra al sol ?','Subject':'Fsica'}];
-
-        $scope.explain = function($scope, $location) {
-
-			$location.path( "http://www.google.cl" );
-
-		}
 
 		// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
