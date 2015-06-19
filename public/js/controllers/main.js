@@ -1,29 +1,21 @@
-angular.module('todoController', ['ui.router'])
+angular.module('todoController', ['ngRoute'])
 
-	.config(function($stateProvider, $urlRouterProvider) {
+	.config(function($routeProvider) {
+		$routeProvider
 
-		$urlRouterProvider.otherwise('/home');
 
-		$stateProvider
-
-/*			// HOME STATES AND NESTED VIEWS ========================================
-			.state('home', {
-				url: '/home',
-				templateUrl: 'index.html'
-			})*/
-
-			// ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-			.state('explain', {
-				// we'll get to this in a bit
-				url: '/explain',
-				templateUrl: 'partials/explain.html',
-				controller: function($scope) {
-					$scope.message = "Hola Vida";
-				}
+			// route for the about page
+			.when('/explain/:param', {
+				templateUrl : 'partials/explain.html',
+				controller  : 'explainController'
 			});
+
 
 	})
 
+	.controller('explainController', function($scope, $routeParams) {
+		$scope.message = $routeParams.param;
+	})
 
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','Questions', function($scope, $http, Questions) {

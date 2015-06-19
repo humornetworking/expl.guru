@@ -20,7 +20,7 @@
 	</style>
 
 	<script src="lib/angular/angular.min.js"></script>
-	<script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script><!-- load angular routes-->
+	<script src="lib/angular-route/angular-route.min.js"></script><!-- load angular routes-->
 
 	<script src="js/controllers/main.js"></script> <!-- load up our controllers -->
 	<script src="js/services/questions.js"></script> <!-- load our questions service -->
@@ -71,17 +71,18 @@
 			<tr ng-repeat="item in questions">
 				<td>{{ item.Title }}</td>
 				<td>{{ item.Subject }}</td>
-				<td><input type="checkbox" ng-click="explain(item._id)"></td>
+				<td><a href="#explain/{{ item._id }}">Explicame</a></td>
+
 			</tr>
 		</table>
 
-		<a href="#explain">Explain</a>
+
 
 		<!-- MAIN CONTENT -->
-		<div class="container">
+		<div id="main">
 
 			<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
-			<div ui-view></div>
+			<div ng-view></div>
 
 		</div>
 
