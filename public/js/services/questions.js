@@ -7,8 +7,8 @@ angular.module('questionService', [])
             get : function() {
                 return $http.get('/api/questions');
             },
-            create : function(todoData) {
-                return $http.post('/api/questions', todoData);
+            create : function(questionData) {
+                return $http.post('/api/questions', questionData);
             },
             delete : function(id) {
                 return $http.delete('/api/questions/' + id);

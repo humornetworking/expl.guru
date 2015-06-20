@@ -4,6 +4,10 @@
   "description"  : "Simple todo application.",
   "main"         : "server.js",
   "author"       : "Scotch",
+  "engines"      : {
+    "node":"0.12.x",
+    "npm":"2.9.x"
+  },
   "dependencies" : {
     "express"         : "~4.6.1",
     "mongoose"        : "~3.8.13",

@@ -34,19 +34,19 @@ module.exports = function(app) {
 		getTodos(res);
 	});
 
-	// create todo and send back all todos after creation
-	app.post('/api/todos', function(req, res) {
 
-		// create a todo, information comes from AJAX request from Angular
-		Todo.create({
-			busqueda : req.body.busqueda,
-			done : false
+	app.post('/api/questions', function(req, res) {
+
+		// create a question, information comes from AJAX request from Angular
+		Question.create({
+			Title : req.body.Title,
+			Subject : req.body.Subject
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
 
 			// get and return all the todos after you create another
-			getTodos(res);
+			//getTodos(res);
 		});
 
 	});
