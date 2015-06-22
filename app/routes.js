@@ -46,7 +46,7 @@ module.exports = function(app) {
 				res.send(err);
 
 			// get and return all the todos after you create another
-			//getTodos(res);
+			res.send(req.body.Title);
 		});
 
 	});
