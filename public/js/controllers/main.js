@@ -24,8 +24,21 @@ angular.module('todoController', ['ngRoute'])
 
 	})
 
-	.controller('explainController', function($scope, $routeParams) {
-		$scope.message = $routeParams.param;
+	.controller('explainController', function($scope, $routeParams,Questions) {
+
+		$scope.formData = {};
+		var idQuestion = $routeParams.param;
+
+		Questions.getById({
+			_id : idQuestion
+		}).success(function(data) {
+
+				$scope.formData.question = data[0].Title;
+				$scope.formData.subject = data[0].Subject;
+
+			});
+
+
 	})
 	.controller('questionController', ['$scope','$http','Questions','$location', function($scope, $http, Questions, $location) {
 		$scope.formData = {};
@@ -33,18 +46,12 @@ angular.module('todoController', ['ngRoute'])
 		$scope.createQuestion = function() {
 
 			if ($scope.formData.question != undefined) {
-				$location.path('/');
+
 				Questions.create({
 					Title : $scope.formData.question ,
 					Subject : $scope.formData.subject
-				}, function (err, todo) {
-
-					if (err)
-						res.send(err);
-					else
-					    $location.path('/');
-
-
+				}).success(function(){
+					$location.path('/');
 				});
 
 			}
