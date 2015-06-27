@@ -1,6 +1,6 @@
 var Todo = require('./models/todo');
 var Question = require('./models/question');
-var mongoose = require('mongoose');
+
 
 function getTodos(res){
 	Todo.find(function(err, todos) {
