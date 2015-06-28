@@ -1,5 +1,6 @@
 var Todo = require('./models/todo');
 var Question = require('./models/question');
+var Answer = require('./models/answer');
 
 
 function getTodos(res){
@@ -35,6 +36,18 @@ module.exports = function(app) {
 				res.send(err);
 
 			res.json(question);
+
+		});
+	});
+
+	app.get('/api/answers/:answer_id', function(req, res) {
+		Answer.find({
+			_id :  req.params.answer_id
+		}, function(err, answer) {
+			if (err)
+				res.send(err);
+
+			res.json(answer);
 
 		});
 	});

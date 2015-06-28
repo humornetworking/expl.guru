@@ -13,7 +13,7 @@ angular.module('todoController', ['ngRoute'])
 			})
 
 			.when('/explain/:param', {
-				templateUrl : 'partials/explain.html',
+				templateUrl : 'partials/answer.html',
 				controller  : 'explainController'
 			})
 			.when('/question', {
@@ -32,7 +32,7 @@ angular.module('todoController', ['ngRoute'])
 		Questions.getById({
 			_id : idQuestion
 		}).success(function(data) {
-
+			    $scope.formData.json = data;
 				$scope.formData.question = data[0].Title;
 				$scope.formData.subject = data[0].Subject;
 
@@ -58,7 +58,30 @@ angular.module('todoController', ['ngRoute'])
 
 		}
 
+
+
 	}])
+
+	.controller('answerController', function($scope, $http, $location, Answers) {
+
+		$scope.answerQuestion= function() {
+
+			if ($scope.formData.answer != undefined) {
+
+				Answers.create({
+					Question : $scope.formData.json ,
+					Answer : $scope.formData.answer
+				}).success(function(){
+					$location.path('/');
+				});
+
+			}
+
+		}
+
+
+
+	})
 
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','Questions', function($scope, $http, Questions) {

@@ -4,5 +4,7 @@
 
     <input type="text" class="form-control" name="question" ng-model="formData.question" required>
     <input type="text" class="form-control" name="subject" ng-model="formData.subject" required>
+    <input type="text" class="form-control input-lg text-center" placeholder="Escribe tu pregunta" ng-model="formData.answer">
 
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="askQuestion()">Add</button>
 </div>
