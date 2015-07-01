@@ -24,7 +24,7 @@ angular.module('todoController', ['ngRoute'])
 
 	})
 
-	.controller('explainController', function($scope, $routeParams,Questions, Answers) {
+	.controller('explainController', function($scope, $routeParams,Questions, Answers, $location) {
 
 		$scope.formData = {};
 		var idQuestion = $routeParams.param;
