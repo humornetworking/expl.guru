@@ -12,6 +12,9 @@ angular.module('questionService', [])
             },
             delete : function(id) {
                 return $http.delete('/api/questions/' + id);
+            },
+            getById : function(id) {
+                return $http.get('/api/questions/' + id._id);
             }
         }
     }]);

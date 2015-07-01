@@ -1,5 +1,7 @@
 var Todo = require('./models/todo');
 var Question = require('./models/question');
+var Answer = require('./models/answer');
+
 
 function getTodos(res){
 	Todo.find(function(err, todos) {
@@ -26,6 +28,30 @@ module.exports = function(app) {
 		});
 	});
 
+	app.get('/api/questions/:question_id', function(req, res) {
+		Question.find({
+			_id :  req.params.question_id
+		}, function(err, question) {
+			if (err)
+				res.send(err);
+
+			res.json(question);
+
+		});
+	});
+
+	app.get('/api/answers/:answer_id', function(req, res) {
+		Answer.find({
+			_id :  req.params.answer_id
+		}, function(err, answer) {
+			if (err)
+				res.send(err);
+
+			res.json(answer);
+
+		});
+	});
+
 	// api ---------------------------------------------------------------------
 	// get all todos
 	app.get('/api/todos', function(req, res) {
@@ -44,9 +70,8 @@ module.exports = function(app) {
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
-
-			// get and return all the todos after you create another
-			//getTodos(res);
+            else
+				res.send(req.body.Title);
 		});
 
 	});
@@ -63,8 +88,12 @@ module.exports = function(app) {
 		});
 	});
 
+
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
+
+
+
 };
