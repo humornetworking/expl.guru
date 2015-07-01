@@ -52,6 +52,27 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post('/api/answers', function(req, res) {
+
+		// create a question, information comes from AJAX request from Angular
+		Answer.create(
+		{
+			Question : {_id : req.body.Question._id,
+				Title : req.body.Question.Title,
+				Subject : req.body.Question.Subject} ,
+			Answer : req.body.Answer
+		}
+
+
+			, function(err, todo) {
+			if (err)
+				res.send(err);
+			else
+				res.send(req.body.Answer);
+		});
+
+	});
+
 	// api ---------------------------------------------------------------------
 	// get all todos
 	app.get('/api/todos', function(req, res) {

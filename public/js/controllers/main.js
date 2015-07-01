@@ -24,7 +24,7 @@ angular.module('todoController', ['ngRoute'])
 
 	})
 
-	.controller('explainController', function($scope, $routeParams,Questions) {
+	.controller('explainController', function($scope, $routeParams,Questions, Answers) {
 
 		$scope.formData = {};
 		var idQuestion = $routeParams.param;
@@ -32,11 +32,29 @@ angular.module('todoController', ['ngRoute'])
 		Questions.getById({
 			_id : idQuestion
 		}).success(function(data) {
-			    $scope.formData.json = data;
+
+			    $scope.formData.id = data[0]._id;
 				$scope.formData.question = data[0].Title;
 				$scope.formData.subject = data[0].Subject;
 
 			});
+
+		$scope.answerQuestion = function() {
+
+			if ($scope.formData.answer != undefined) {
+
+				Answers.create({
+					Question : {_id : $scope.formData.id,
+						         Title : $scope.formData.question,
+						         Subject : $scope.formData.subject} ,
+					Answer : $scope.formData.answer
+				}).success(function(){
+					$location.path('/');
+				});
+
+			}
+
+		}
 
 
 	})
