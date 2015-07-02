@@ -27,6 +27,11 @@ module.exports = function(app) {
 			res.json(todos); // return all todos in JSON format
 		});
 	});
+	app.get('/api/topQuestions', function(req, res) {
+
+		var juana = Question.find().limit(5);
+		console.log("jaja");
+	});
 
 	app.get('/api/questions/:question_id', function(req, res) {
 		Question.find({

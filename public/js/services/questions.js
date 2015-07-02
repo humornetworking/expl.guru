@@ -15,6 +15,9 @@ angular.module('questionService', [])
             },
             getById : function(id) {
                 return $http.get('/api/questions/' + id._id);
+            },
+            getTopQuestions : function() {
+                return $http.get('/api/topQuestions');
             }
         }
     }]);
