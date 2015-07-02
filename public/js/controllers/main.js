@@ -106,6 +106,12 @@ angular.module('todoController', ['ngRoute'])
 		$scope.formData = {};
 		$scope.loading = false;
 
+		Questions.getTopQuestions()
+			.success(function(data) {
+				$scope.questions = data;
+				$scope.loading = false;
+			});
+
 
 		// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API

@@ -29,8 +29,17 @@ module.exports = function(app) {
 	});
 	app.get('/api/topQuestions', function(req, res) {
 
-		var juana = Question.find().limit(5);
-		console.log("jaja");
+
+		Question.find({Date : {$lt: new Date()}}).limit(5).exec(function(err, question) {
+			if (err)
+				res.send(err);
+
+			res.json(question);
+
+		});
+
+
+
 	});
 
 	app.get('/api/questions/:question_id', function(req, res) {
