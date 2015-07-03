@@ -102,7 +102,7 @@ angular.module('todoController', ['ngRoute'])
 	})
 
 	// inject the Todo service factory into our controller
-	.controller('mainController', ['$scope','$http','Questions', function($scope, $http, Questions) {
+	.controller('mainController', ['$scope','$http','$routeParams','Questions', function($scope, $http, $routeParams, Questions) {
 		$scope.formData = {};
 		$scope.loading = false;
 
@@ -129,6 +129,26 @@ angular.module('todoController', ['ngRoute'])
 					});
 			}
 		};
+
+
+
+		$scope.searchQuestionByText = function() {
+
+			// validate the formData to make sure that something is there
+			// if form is empty, nothing will happen
+			if ($scope.formData.searchText != undefined) {
+				//$scope.loading = true;
+
+				Questions.getByText({
+					text : $scope.formData.searchText
+				})
+					.success(function(data) {
+						$scope.questions = data;
+						$scope.loading = false;
+					});
+			}
+		};
+
 
 
 		$scope.explain = function (id) {

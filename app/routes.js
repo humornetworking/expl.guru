@@ -27,6 +27,23 @@ module.exports = function(app) {
 			res.json(todos); // return all todos in JSON format
 		});
 	});
+
+
+	app.get('/api/questions/getByText/:pattern', function(req, res) {
+
+		Question.find(
+			{"Title": { "$regex": req.params.pattern}
+			},function(err, questions) {
+
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err)
+
+			res.json(questions); // return all todos in JSON format
+		});
+	});
+
+
 	app.get('/api/topQuestions', function(req, res) {
 
 

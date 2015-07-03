@@ -1,9 +1,9 @@
 {
-  "name"         : "node-todo",
-  "version"      : "0.0.0",
-  "description"  : "Simple todo application.",
+  "name"         : "eXpl",
+  "version"      : "0.0.1",
+  "description"  : "Explication platform.",
   "main"         : "server.js",
-  "author"       : "Scotch",
+  "author"       : "Fibonacci",
   "engines"      : {
     "node":"0.12.x",
     "npm":"2.9.x"

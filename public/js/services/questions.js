@@ -18,6 +18,9 @@ angular.module('questionService', [])
             },
             getTopQuestions : function() {
                 return $http.get('/api/topQuestions');
+            },
+            getByText : function(pattern) {
+                return $http.get('/api/questions/getByText/' + pattern.text);
             }
         }
     }]);

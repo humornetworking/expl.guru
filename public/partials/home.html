@@ -22,11 +22,12 @@
             <div class="form-group">
 
                 <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                <input type="text" class="form-control input-lg text-center" placeholder="Ingrese temas " ng-model="formData.searchText">
+                <input type="text" class="form-control input-lg text-center" placeholder="Ingrese temas " ng-change="searchQuestionByText()" ng-model="formData.searchText">
+                <p>You wrote: {{ formData.searchText }}</p>
             </div>
 
             <!-- createToDo() WILL CREATE NEW TODOS -->
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="searchQuestion()">Search</button>
+            <button type="submit" class="btn btn-primary btn-lg"   ng-click="searchQuestion()">Search</button>
         </form>
     </div>
 </div>
