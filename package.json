@@ -1,25 +1,23 @@
 {
-  "name"         : "eXpl",
-  "version"      : "0.0.1",
-  "description"  : "Explication platform.",
-  "main"         : "server.js",
-  "author"       : "Fibonacci",
-  "engines"      : {
-    "node":"0.12.x",
-    "npm":"2.9.x"
+  "name": "eXpl",
+  "version": "0.0.1",
+  "description": "Explication platform.",
+  "main": "server.js",
+  "author": "Fibonacci",
+  "engines": {
+    "node": "0.12.x",
+    "npm": "2.9.x"
   },
-  "dependencies" : {
-    "express"         : "~4.6.1",
-    "mongoose"        : "~3.8.13",
-    "morgan"          : "~1.1.1",
-    "body-parser"     : "~1.4.3",
-    "method-override" : "~2.1.1"
+  "dependencies": {
+    "body-parser": "~1.4.3",
+    "bower": "^1.4.1",
+    "express": "~4.6.1",
+    "method-override": "~2.1.1",
+    "mongoose": "~3.8.13",
+    "morgan": "~1.1.1"
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "bash ./post_install.sh"
-  },
-  "main": "server.js"
-
-
+    "postinstall": "node ./node_modules/bower/bin/bower install"
+  }
 }
