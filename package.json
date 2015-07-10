@@ -16,7 +16,8 @@
     "method-override" : "~2.1.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bash ./post_install.sh"
   },
   "main": "server.js"
 
