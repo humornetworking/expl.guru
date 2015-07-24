@@ -134,7 +134,13 @@ angular.module('todoController', ['ngRoute'])
 			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
 			OAuth.popup('facebook')
 				.done(function(result) {
-					alert("La vida es bella");
+
+					result.get('/me')
+						.done(function (response) {
+							//this will display "John Doe" in the console
+							alert(response.name);
+						})
+
 				})
 				.fail(function (err) {
 					//handle error with err
