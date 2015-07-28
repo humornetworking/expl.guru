@@ -1,6 +1,6 @@
-angular.module('todoController', ['ngRoute'])
+angular.module('todoController', ['ngRoute','ngStorage'])
 
-	.config(function($routeProvider) {
+	.config(function( $routeProvider, $httpProvider) {
 		$routeProvider
 
 			.when('/', {
@@ -19,7 +19,27 @@ angular.module('todoController', ['ngRoute'])
 			.when('/question', {
 				templateUrl : 'partials/question.html',
 				controller  : 'questionController'
+			})
+			.when('/login', {
+				templateUrl : 'partials/login.html',
+				controller  : 'loginController'
 			});
+
+		$httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
+			return {
+				'request': function (config) {
+					config.headers = config.headers || {};
+					if ($localStorage.token) {
+						config.headers.Authorization = 'Bearer ' + $localStorage.token;
+					} else {
+						$location.path('/login'); //Si no esta autorizado lo mando al login
+					}
+					return config;
+				}
+			};
+		}]);
+
+
 
 
 	})
@@ -101,6 +121,41 @@ angular.module('todoController', ['ngRoute'])
 
 	})
 
+	.controller('loginController', function($scope, $localStorage, $location, Util) {
+
+
+		$scope.facebookLogin = function() {
+
+
+
+			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
+			OAuth.popup('facebook')
+				.done(function(result) {
+
+					result.get('/me')
+						.done(function (response) {
+
+							Util.signin({
+								name  : response.name ,
+								type : "Facebook"
+							}).success(function(data){
+								$localStorage.token = data.token;
+								$location.path('/');
+							});
+
+
+						})
+
+				})
+				.fail(function (err) {
+					//handle error with err
+				});
+		};
+
+
+	})
+
+
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','$routeParams','Questions', function($scope, $http, $routeParams, Questions) {
 		$scope.formData = {};
@@ -128,23 +183,6 @@ angular.module('todoController', ['ngRoute'])
 						$scope.loading = false;
 					});
 			}
-		};
-
-		$scope.facebookLogin = function() {
-			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
-			OAuth.popup('facebook')
-				.done(function(result) {
-
-					result.get('/me')
-						.done(function (response) {
-							//this will display "John Doe" in the console
-							alert(response.name);
-						})
-
-				})
-				.fail(function (err) {
-					//handle error with err
-				});
 		};
 
 
