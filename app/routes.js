@@ -17,7 +17,7 @@ function getTodos(res){
 
 module.exports = function(app,jwt) {
 
-	app.get('/api/questions', function(req, res) {
+	app.get('/api/questions', ensureAuthorized, function(req, res) {
 
 		Question.find(function(err, todos) {
 
@@ -30,7 +30,7 @@ module.exports = function(app,jwt) {
 	});
 
 
-	app.get('/api/questions/getByText/:pattern', function(req, res) {
+	app.get('/api/questions/getByText/:pattern', ensureAuthorized, function(req, res) {
 
 		Question.find(
 			{"Title": { "$regex": req.params.pattern}
@@ -162,8 +162,16 @@ module.exports = function(app,jwt) {
 						token: user.token
 					});
 				} else {
-					//var userModel = new User();
-					var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+
+					var userModel = new User();
+					userModel.name = req.body.name;
+					userModel.tyoe = req.body.type;
+
+					var token = jwt.sign(userModel, app.get('superSecret'), {
+						expiresInMinutes: 1440 // expires in 24 hours
+					});
+
+
 					User.create({
 						name : req.body.name,
 						type : req.body.type,
@@ -191,8 +199,21 @@ module.exports = function(app,jwt) {
 		if (typeof bearerHeader !== 'undefined') {
 			var bearer = bearerHeader.split(" ");
 			bearerToken = bearer[1];
-			req.token = bearerToken;
-			next();
+
+			// verifies secret and checks exp
+			jwt.verify(bearerToken, app.get('superSecret'), function(err, decoded) {
+				if (err) {
+					//return res.json({ success: false, message: 'Failed to authenticate token.' });
+					res.send(403);
+				} else {
+					// if everything is good, save to request for use in other routes
+					req.token = bearerToken;
+					next();
+				}
+			});
+
+
+
 		} else {
 			res.send(403);
 		}

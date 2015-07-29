@@ -35,7 +35,13 @@ angular.module('todoController', ['ngRoute','ngStorage'])
 						$location.path('/login'); //Si no esta autorizado lo mando al login
 					}
 					return config;
+				},
+				'responseError': function(response) {
+				if(response.status === 401 || response.status === 403) {
+					$location.path('/login');
 				}
+				return $q.reject(response);
+			}
 			};
 		}]);
 
@@ -127,8 +133,17 @@ angular.module('todoController', ['ngRoute','ngStorage'])
 		$scope.facebookLogin = function() {
 
 
+			Util.signin({
+				name  : "Juana" ,
+				type : "Facebook"
+			}).success(function(data){
+				$localStorage.token = data.token;
+				$location.path('/');
+			});
 
-			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
+
+
+/*			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
 			OAuth.popup('facebook')
 				.done(function(result) {
 
@@ -149,7 +164,7 @@ angular.module('todoController', ['ngRoute','ngStorage'])
 				})
 				.fail(function (err) {
 					//handle error with err
-				});
+				});*/
 		};
 
 
