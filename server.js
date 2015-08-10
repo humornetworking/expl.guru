@@ -12,6 +12,9 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var jwt        = require("jsonwebtoken");
 
+
+var mailgun = require("mailgun-js")({apiKey: setup.mail_api_key, domain: setup.mail_domain});
+
 // configuration ===============================================================
 mongoose.connect(setup.database); 	// connect to mongoDB database on modulus.io
 
@@ -25,7 +28,7 @@ app.set('superSecret', setup.secret); // secret variable
 
 
 // routes ======================================================================
-require('./app/routes.js')(app, jwt);
+require('./app/routes.js')(app, jwt, mailgun);
 
 // listen (start app with node server.js) ======================================
 

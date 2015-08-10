@@ -2,7 +2,7 @@
   "name": "expl.guru",
   "version": "0.0.1",
   "authors": [
-    "wiskas <holamundo.buz@gmail.com>"
+    "Andres <avasquez@fibonacci.cl>"
   ],
   "description": "The expl app",
   "license": "GNU",
@@ -15,6 +15,7 @@
     "bootstrap": "~3.3.4",
     "angular-ui-router": "~0.2.15",
     "oauth-js": "~0.4.3",
-    "ngstorage": "~0.3.7"
+    "ngstorage": "~0.3.7",
+    "modernizr": "~2.8.3"
   }
 }

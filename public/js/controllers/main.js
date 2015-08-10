@@ -133,25 +133,26 @@ angular.module('todoController', ['ngRoute','ngStorage'])
 		$scope.facebookLogin = function() {
 
 
-			Util.signin({
+/*			Util.signin({
 				name  : "Juana" ,
 				type : "Facebook"
 			}).success(function(data){
 				$localStorage.token = data.token;
 				$location.path('/');
-			});
+			});*/
 
 
 
-/*			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
+			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
 			OAuth.popup('facebook')
 				.done(function(result) {
 
-					result.get('/me')
+					result.get('/me?fields=name,email')
 						.done(function (response) {
 
 							Util.signin({
 								name  : response.name ,
+								email  : response.email ,
 								type : "Facebook"
 							}).success(function(data){
 								$localStorage.token = data.token;
@@ -164,7 +165,7 @@ angular.module('todoController', ['ngRoute','ngStorage'])
 				})
 				.fail(function (err) {
 					//handle error with err
-				});*/
+				});
 		};
 
 

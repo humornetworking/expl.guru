@@ -1,1 +1,1 @@
-angular.module('scotchTodo', ['todoController', 'questionService', 'answerService', 'utilService']);
+angular.module('eXplApp', ['todoController', 'questionService', 'answerService', 'utilService']);

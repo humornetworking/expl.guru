@@ -1,10 +1,4 @@
 
-
-<!-- HEADER AND TODO COUNT -->
-<div class="jumbotron text-center">
-    <h1>eXpl <span class="label label-info">3</span></h1>
-</div>
-
 <!-- TODO LIST -->
 <div id="todo-list" class="row">
     <div class="col-sm-4 col-sm-offset-4">
@@ -20,26 +14,36 @@
 <!-- FORM TO CREATE TODOS -->
 <div id="todo-form" class="row">
     <div class="col-sm-8 col-sm-offset-2 text-center">
+
+        <p><a class="btn btn-primary btn-lg" href="#question" role="button">Explicame &raquo;</a></p>
+
         <form>
             <div class="form-group">
 
                 <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                <input type="text" class="form-control input-lg text-center" placeholder="Ingrese temas " ng-change="searchQuestionByText()" ng-model="formData.searchText">
+                <input id="busqueda" type="text" class="form-control input-lg text-center" placeholder="Buscar preguntas" ng-change="searchQuestionByText()" ng-model="formData.searchText">
 
             </div>
 
-            <!-- createToDo() WILL CREATE NEW TODOS -->
-            <button type="submit" class="btn btn-primary btn-lg"   ng-click="searchQuestion()">Search</button>
         </form>
     </div>
 </div>
 
 
-<table>
-    <tr ng-repeat="item in questions">
+<table class="table">
+
+    <thead>
+    <tr>
+        <th>Peticiones</th>
+        <th>Materia</th>
+        <th>Accion</th>
+    </tr>
+    </thead>
+
+    <tr class="success" ng-repeat="item in questions">
         <td>{{ item.Title }}</td>
         <td>{{ item.Subject }}</td>
         <td><a href="#explain/{{ item._id }}">Explicame</a></td>
-
     </tr>
 </table>
+

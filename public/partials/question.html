@@ -4,15 +4,20 @@
             <div class="form-group">
 
                 <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                <input type="text" class="form-control input-lg text-center" placeholder="Ask Something" ng-model="formData.question">
-
+                <input type="text" class="form-control input-lg text-center" placeholder="Pregunta Algo" ng-model="formData.question">
+                <br>
                 <div class="form-group">
 
-                    <select class="form-control" ng-model="formData.subject" >
+                    <select placeholder="Pregunta Algo" class="form-control" ng-model="formData.subject" >
+                        <option value="" selected disabled>Selecciona un tema</option>
                         <option value="Matematicas">Matematicas</option>
                         <option value="Literatura">Literatura</option>
                         <option value="Arte">Arte</option>
                         <option value="Deporte">Deporte</option>
+                        <option value="Biologia">Biologia</option>
+                        <option value="Castellano">Castellano</option>
+                        <option value="Musica">Musica</option>
+                        <option value="Computacion">Computacion</option>
 
                     </select>
 
@@ -21,7 +26,7 @@
             </div>
 
             <!-- createToDo() WILL CREATE NEW TODOS -->
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="createQuestion()">Add</button>
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="createQuestion()">Enviar Pregunta</button>
         </form>
     </div>
 </div>
