@@ -1,1 +1,1 @@
-angular.module('eXplApp', ['todoController', 'questionService', 'answerService', 'utilService']);
+angular.module('eXplApp', ['explController', 'questionService', 'answerService', 'utilService']);

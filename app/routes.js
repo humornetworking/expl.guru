@@ -1,19 +1,8 @@
-var Todo = require('./models/todo');
 var Question = require('./models/question');
 var Answer = require('./models/answer');
 var User = require('./models/user');
 
 
-function getTodos(res) {
-    Todo.find(function (err, todos) {
-
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-        if (err)
-            res.send(err)
-
-        res.json(todos); // return all todos in JSON format
-    });
-};
 
 module.exports = function (app, jwt, mailgun) {
 
@@ -150,13 +139,6 @@ module.exports = function (app, jwt, mailgun) {
 
     });
 
-    // api ---------------------------------------------------------------------
-    // get all todos
-    app.get('/api/todos', function (req, res) {
-
-        // use mongoose to get all todos in the database
-        getTodos(res);
-    });
 
 
     app.post('/api/questions', ensureAuthorized, function (req, res) {
@@ -198,21 +180,8 @@ module.exports = function (app, jwt, mailgun) {
             });
 
 
-        }
-        ;
+        };
 
-    });
-
-    // delete a todo
-    app.delete('/api/todos/:todo_id', function (req, res) {
-        Todo.remove({
-            _id: req.params.todo_id
-        }, function (err, todo) {
-            if (err)
-                res.send(err);
-
-            getTodos(res);
-        });
     });
 
 

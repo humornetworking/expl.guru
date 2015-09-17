@@ -1,4 +1,4 @@
-angular.module('todoController', ['ngRoute','ngStorage'])
+angular.module('explController', ['ngRoute','ngStorage'])
 
 	.config(function( $routeProvider, $httpProvider) {
 		$routeProvider
