@@ -25,6 +25,8 @@ angular.module('explController', ['ngRoute','ngStorage'])
 				controller  : 'loginController'
 			});
 
+		$httpProvider.defaults.withCredentials = true;
+
 		$httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
 			return {
 				'request': function (config) {
@@ -132,17 +134,6 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 		$scope.facebookLogin = function() {
 
-
-/*			Util.signin({
-				name  : "Juana" ,
-				type : "Facebook"
-			}).success(function(data){
-				$localStorage.token = data.token;
-				$location.path('/');
-			});*/
-
-
-
 			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
 			OAuth.popup('facebook')
 				.done(function(result) {
@@ -167,6 +158,32 @@ angular.module('explController', ['ngRoute','ngStorage'])
 					//handle error with err
 				});
 		};
+
+
+		$scope.googleLogin = function() {
+
+			OAuth.initialize('P0M9nmp8JTxEJCGcW9Sb3x83_Og');
+			OAuth.popup('google')
+				.done(function(result) {
+
+					result.me().done(function(data) {
+
+						Util.signin({
+							name  : data.name ,
+							email  : data.email ,
+							type : "Google"
+						}).success(function(data){
+							$localStorage.token = data.token;
+							$location.path('/');
+						});
+					})
+
+				})
+				.fail(function (err) {
+					//handle error with err
+				});
+		};
+
 
 
 	})
