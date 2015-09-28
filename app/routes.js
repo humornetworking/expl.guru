@@ -113,20 +113,33 @@ module.exports = function (app, jwt, mailgun) {
 
 
                                 //Aqui envio el correo
+                                Question.findOne(
+                                    {
+                                        "_id": req.body.Question._id
+                                    }, function (err, question) {
+
+                                        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+                                        if (err) {
+                                            res.send(err)
+                                        } else {
+                                            var data = {
+                                                from: 'postmaster@sandbox2576ebf851d144449cdb3023f5b14267.mailgun.org',
+                                                to: question.User.Email,
+                                                subject: 'Ha LLegado una respuesta a tu pregunta',
+                                                text: 'Respuesta :'+ req.body.Answer
+                                            };
+
+                                            mailgun.messages().send(data, function (error, body) {
+                                                console.log(body);
+                                            });
+
+                                            res.send(req.body.Answer);
+                                        }
 
 
-                                var data = {
-                                    from: 'postmaster@sandbox2576ebf851d144449cdb3023f5b14267.mailgun.org',
-                                    to: user.email,
-                                    subject: 'Ha LLegado una respuesta a tu pregunta',
-                                    text: 'Respuesta :'+ req.body.Answer
-                                };
+                                    });
 
-                                mailgun.messages().send(data, function (error, body) {
-                                    console.log(body);
-                                });
 
-                                res.send(req.body.Answer);
                             }
                         });
                 }
