@@ -78,7 +78,7 @@ module.exports = function (app, jwt, mailgun) {
         // create a question, information comes from AJAX request from Angular
         var bearerToken;
         var bearerHeader = req.headers["authorization"]; //Porque no recivo el token ! Non - bloking thinking
-        //var bearerHeader =  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiRmFjZWJvb2siLCJlbWFpbCI6ImNhcGl0YW5jYWJlcm5pY29sYUBob3RtYWlsLmNvbSIsIm5hbWUiOiJBbmRyw6lzIFbDoXNxdWV6IiwiX2lkIjoiNTVjODY5ZDFlZjcxMGU5NTVmZGZlOWRiIn0.tMfV3JZNsbQyy8CIZ2HKVfSWbfAIFrIWvVYcnAC0cOk";
+
         if (typeof bearerHeader !== 'undefined') {
             var bearer = bearerHeader.split(" ");
             bearerToken = bearer[1];
@@ -134,51 +134,33 @@ module.exports = function (app, jwt, mailgun) {
             });
 
 
-        }
-        ;
+        };
 
     });
 
 
-
     app.post('/api/questions', ensureAuthorized, function (req, res) {
 
-        // create a question, information comes from AJAX request from Angular
-        var bearerToken;
-        var bearerHeader = req.headers["authorization"];
-        if (typeof bearerHeader !== 'undefined') {
-            var bearer = bearerHeader.split(" ");
-            bearerToken = bearer[1];
+        var user = getUserFromToken(req);
 
-            User.findOne({"token": bearerToken}, function (err, user) {
-                if (err)
-                    res.send(err);
-                else {
+        if (user != null) {
 
-
-
-                    Question.create({
-                        Title: req.body.Title,
-                        Subject: req.body.Subject,
-                        User: {
-                            Name: user.name,
-                            Email: user.email,
-                            Type: user.type,
-                            Token: user.token
-
-                        }
-                    }, function (err, todo) {
-                        if (err) {
-                            res.send(err);
-                        } else {
-
-                            res.send(req.body.Title);
-                        }
-                    });
+            Question.create({
+                Title: req.body.Title,
+                Subject: req.body.Subject,
+                User: {
+                    _id : user._id,
+                    Name: user.name,
+                    Email: user.email
                 }
+            }, function (err, todo) {
+                if (err) {
+                    res.send(err);
+                } else {
 
+                    res.send(req.body.Title);
+                }
             });
-
 
         };
 
@@ -189,6 +171,7 @@ module.exports = function (app, jwt, mailgun) {
     app.get('*', function (req, res) {
         res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
+
 
     app.post('/signin', function (req, res) {
         User.findOne({name: req.body.name, type: req.body.type}, function (err, user) {
@@ -211,28 +194,39 @@ module.exports = function (app, jwt, mailgun) {
                     userModel.email = req.body.email;
                     userModel.type = req.body.type;
 
-                    var token = jwt.sign(userModel, app.get('superSecret'), {
-                        expiresInMinutes: 1440 // expires in 24 hours
-                    });
+
 
                     //TODO : Aqui yo primero deberia eliminar el usuario by name and tipo de autenticacion
 
                     User.create({
                         name: req.body.name,
                         email: req.body.email,
-                        type: req.body.type,
-                        token: token
+                        type: req.body.type
+
                     }, function (err, user) {
-                        if (err)
+                        if (err) {
                             res.send(err);
-                        else
+                        } else {
+
+                            var token = jwt.sign(user, app.get('superSecret'), {
+                                expiresInMinutes: 1440 // expires in 24 hours
+                            });
+
+                            //Actualizo el token
+                            User.update({_id: user.id}, {
+                                token: token
+                            }, function(err, affected, resp) {
+                                console.log(resp);
+                            })
+
                             res.json({
                                 name: user.name,
                                 email: user.email,
                                 type: user.type,
-                                token: user.token
+                                token: token
 
                             });
+                        }
                     });
                 }
             }
@@ -241,6 +235,8 @@ module.exports = function (app, jwt, mailgun) {
 
 
     function ensureAuthorized(req, res, next) {
+
+
         var bearerToken;
         var bearerHeader = req.headers["authorization"];
         if (typeof bearerHeader !== 'undefined') {
@@ -263,6 +259,21 @@ module.exports = function (app, jwt, mailgun) {
         } else {
             res.send(403);
         }
+    }
+
+    function getUserFromToken(req) {
+
+        var bearerHeader = req.headers["authorization"];
+        if (typeof bearerHeader !== 'undefined') {
+            var bearer = bearerHeader.split(" ");
+            var bearerToken = bearer[1];
+
+            var user = jwt.decode(bearerToken, app.get('superSecret'));
+            return user;
+        } else {
+            return null;
+        }
+
     }
 
     process.on('uncaughtException', function (err) {

@@ -5,11 +5,10 @@ module.exports = mongoose.model('Question', {
     Title : {type : String, default: ''},
     Subject : {type : String, default: ''},
     User : {
-
+        _id: {type : String, default: ''},
         Name: {type : String, default: ''},
-        Email: {type : String, default: ''},
-        Type: {type : String, default: ''},
-        Token: {type : String, default: ''}
+        Email: {type : String, default: ''}
+
 
     },
     Date: { type: Date, default: Date.now }

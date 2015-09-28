@@ -1,4 +1,3 @@
-// set up ======================================================================
 var express  = require('express');
 var app      = express(); 								// create our app w/ express
 var mongoose = require('mongoose'); 					// mongoose for mongodb
@@ -34,3 +33,6 @@ require('./app/routes.js')(app, jwt, mailgun);
 
 app.listen(port);
 console.log("App listening on port " + port);
+
+
+
