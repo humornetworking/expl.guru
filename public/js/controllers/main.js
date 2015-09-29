@@ -82,7 +82,17 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 			}
 
+		};
+
+
+/*		$scope.recievedTroughSocket = "still waiting for data...";
+		$scope.sendWithSocket = function(msg){
+			socket.emit("something", msg);
 		}
+		socket.on("greetings", function(data){
+			console.log("user data: " + JSON.stringify(data));
+			$scope.recievedTroughSocket = data.msg;
+		});*/
 
 
 	})
@@ -237,11 +247,19 @@ angular.module('explController', ['ngRoute','ngStorage'])
 			}
 		};
 
+		//TODO: Hola Mundo web socket
+		try {
+			var socket = io();
+			socket.emit('Ping', {data: 'foo!', id: '2'});
 
+			socket.on('Pong', function(data) {
+				console.log(data.message);
+			});
+		}
+		catch(err) {
+			console.log(err.message);
+		}
 
-		$scope.explain = function (id) {
-			alert("Hola Mundo "+ id);
-		};
 
 
 

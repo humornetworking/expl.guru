@@ -1,5 +1,17 @@
 var express  = require('express');
-var app      = express(); 								// create our app w/ express
+var app      = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+io.on('connection', function(socket) {
+
+    socket.on('Ping', function (data) {
+        socket.emit('Pong', { message: 'Welcome!', id: socket.id });
+    });
+
+
+});
+
 var mongoose = require('mongoose'); 					// mongoose for mongodb
 
 
@@ -10,6 +22,9 @@ var morgan   = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var jwt        = require("jsonwebtoken");
+
+
+
 
 
 var mailgun = require("mailgun-js")({apiKey: setup.mail_api_key, domain: setup.mail_domain});
@@ -29,10 +44,11 @@ app.set('superSecret', setup.secret); // secret variable
 // routes ======================================================================
 require('./app/routes.js')(app, jwt, mailgun);
 
-// listen (start app with node server.js) ======================================
 
-app.listen(port);
-console.log("App listening on port " + port);
+http.listen(port, function(){
+    console.log('listening on *:8080');
+});
+
 
 
 
