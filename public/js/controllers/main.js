@@ -165,7 +165,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 				})
 				.fail(function (err) {
-					//handle error with err
+					console.log(err);
 				});
 		};
 
@@ -190,7 +190,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 				})
 				.fail(function (err) {
-					//handle error with err
+					console.log(err);
 				});
 		};
 
@@ -200,7 +200,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 
 	// inject the Todo service factory into our controller
-	.controller('mainController', ['$scope','$http','$routeParams','Questions', function($scope, $http, $routeParams, Questions) {
+	.controller('mainController', ['$scope','$http','$routeParams','Questions','socket', function($scope, $http, $routeParams, Questions, socket) {
 		$scope.formData = {};
 		$scope.loading = false;
 
@@ -247,12 +247,9 @@ angular.module('explController', ['ngRoute','ngStorage'])
 			}
 		};
 
-		//TODO: Hola Mundo web socket
+		//TODO: web socket queda a la espera de notificaciones
 		try {
-			var socket = io();
-			socket.emit('Ping', {data: 'foo!', id: '2'});
-
-			socket.on('Pong', function(data) {
+			socket.on('notification', function(data) {
 				console.log(data.message);
 			});
 		}

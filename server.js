@@ -2,15 +2,19 @@ var express  = require('express');
 var app      = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var connections = {};
+app.set('connections', connections);
 
-io.on('connection', function(socket) {
+require('./app/util/socket.js')(app,io);
+
+/*io.on('connection', function(socket) {
 
     socket.on('Ping', function (data) {
         socket.emit('Pong', { message: 'Welcome!', id: socket.id });
     });
 
 
-});
+});*/
 
 var mongoose = require('mongoose'); 					// mongoose for mongodb
 

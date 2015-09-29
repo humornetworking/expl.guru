@@ -251,7 +251,6 @@ module.exports = function (app, jwt, mailgun) {
 
     function ensureAuthorized(req, res, next) {
 
-
         var bearerToken;
         var bearerHeader = req.headers["authorization"];
         if (typeof bearerHeader !== 'undefined') {
