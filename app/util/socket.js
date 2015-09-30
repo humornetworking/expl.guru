@@ -1,9 +1,18 @@
-module.exports = function (app,io) {
+module.exports = function (app,io,jwt) {
 
     io.on('connection', function(socket) {
 
-        app.get('connections')[socket.id] = socket;
-        //Como obtengo el jwt para obtener el user id ?
+
+        socket.auth = false;
+        socket.on('authenticate', function(data){
+
+            var user = jwt.decode(data.token, app.get('superSecret'));
+            app.get('connections')[user.id] = socket;
+            socket.auth = true;
+
+        });
+
+
 
     });
 

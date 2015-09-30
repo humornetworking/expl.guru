@@ -1,9 +1,14 @@
 angular.module('socketService', [])
 
-
-
- .factory('socket', function ($rootScope) {
+ .factory('socket', function ($rootScope, $localStorage) {
     var socket = io.connect();
+
+
+   socket.on('message', function(msg){
+            alert(msg.data);
+        });
+
+
     return {
         on: function (eventName, callback) {
             socket.on(eventName, function () {

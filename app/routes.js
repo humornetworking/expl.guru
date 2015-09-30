@@ -77,18 +77,9 @@ module.exports = function (app, jwt, mailgun) {
 
     app.post('/api/answers', ensureAuthorized, function (req, res) {
 
-        // create a question, information comes from AJAX request from Angular
-        var bearerToken;
-        var bearerHeader = req.headers["authorization"]; //Porque no recivo el token ! Non - bloking thinking
+        var user = getUserFromToken(req);
 
-        if (typeof bearerHeader !== 'undefined') {
-            var bearer = bearerHeader.split(" ");
-            bearerToken = bearer[1];
-
-            User.findOne({"token": bearerToken}, function (err, user) {
-                if (err)
-                    res.send(err);
-                else {
+        if (user != null) {
 
                     Answer.create(
                         {
@@ -120,7 +111,6 @@ module.exports = function (app, jwt, mailgun) {
                                         "_id": req.body.Question._id
                                     }, function (err, question) {
 
-                                        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
                                         if (err) {
                                             res.send(err)
                                         } else {
@@ -135,6 +125,13 @@ module.exports = function (app, jwt, mailgun) {
                                                 console.log(body);
                                             });
 
+
+                                            //Envio una notificacion si el user esta conectado
+                                            if (app.get('connections')[question.User._id] != undefined) {
+                                                   var socket = app.get('connections')[question.User._id];
+                                                   socket.emit('message',{data: "Tu pregunta ha sido respondida"});
+                                            }
+
                                             res.send(req.body.Answer);
                                         }
 
@@ -146,10 +143,6 @@ module.exports = function (app, jwt, mailgun) {
                         });
                 }
 
-            });
-
-
-        };
 
     });
 

@@ -139,7 +139,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 	})
 
-	.controller('loginController', function($scope, $localStorage, $location, Util) {
+	.controller('loginController', function($scope, $localStorage, $location, Util, socket) {
 
 
 		$scope.facebookLogin = function() {
@@ -157,6 +157,9 @@ angular.module('explController', ['ngRoute','ngStorage'])
 								type : "Facebook"
 							}).success(function(data){
 								$localStorage.token = data.token;
+
+								socket.emit('authenticate', {token: data.token});
+
 								$location.path('/');
 							});
 
@@ -184,6 +187,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 							type : "Google"
 						}).success(function(data){
 							$localStorage.token = data.token;
+							socket.emit('authenticate', {token: data.token});
 							$location.path('/');
 						});
 					})
@@ -200,7 +204,7 @@ angular.module('explController', ['ngRoute','ngStorage'])
 
 
 	// inject the Todo service factory into our controller
-	.controller('mainController', ['$scope','$http','$routeParams','Questions','socket', function($scope, $http, $routeParams, Questions, socket) {
+	.controller('mainController', ['$scope','$http','$routeParams','Questions','socket', function($scope, $http, $routeParams, Questions) {
 		$scope.formData = {};
 		$scope.loading = false;
 
@@ -248,14 +252,14 @@ angular.module('explController', ['ngRoute','ngStorage'])
 		};
 
 		//TODO: web socket queda a la espera de notificaciones
-		try {
+/*		try {
 			socket.on('notification', function(data) {
 				console.log(data.message);
 			});
 		}
 		catch(err) {
 			console.log(err.message);
-		}
+		}*/
 
 
 
